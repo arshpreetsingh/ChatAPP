@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"path/filepath"
 	"sync"
+
+	"github.com/gorilla/websocket"
 )
 
 // templ represents a single template
@@ -13,6 +15,19 @@ type templateHandler struct {
 	once     sync.Once
 	filename string
 	templ    *template.Template
+}
+
+type clinet struct {
+
+	// web socker for communication
+	socket *websocket.Conn
+
+	// send is channel on which message will be sent
+
+	send chan []byte
+
+	// room for client to stay in, Will be of type struct
+	room *room
 }
 
 // ServeHTTP handles the HTTP request.
